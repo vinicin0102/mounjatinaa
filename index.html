@@ -1761,6 +1761,8 @@
 
         let socialIndex = 0;
         const popup = document.getElementById('social-popup');
+        const notificationSound = new Audio('https://actions.google.com/sounds/v1/ui/positive_notification.ogg');
+        notificationSound.volume = 0.4;
 
         function showSocialProof() {
             const data = socialData[socialIndex];
@@ -1768,6 +1770,12 @@
             document.getElementById('sp-time').textContent = data.time;
 
             popup.classList.add('show');
+            
+            // Tenta tocar o som (o navegador pode bloquear se o usuário ainda não tiver clicado/rolado na página)
+            try {
+                notificationSound.currentTime = 0;
+                notificationSound.play().catch(e => console.log('Áudio aguardando interação do usuário.'));
+            } catch(e) {}
 
             setTimeout(() => {
                 popup.classList.remove('show');
